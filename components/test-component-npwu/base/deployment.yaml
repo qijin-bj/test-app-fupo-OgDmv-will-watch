@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  creationTimestamp: null
+  labels:
+    app.kubernetes.io/created-by: application-service
+    app.kubernetes.io/instance: test-component-npwu
+    app.kubernetes.io/managed-by: kustomize
+    app.kubernetes.io/name: test-component-npwu
+    app.kubernetes.io/part-of: test-app-fupo
+  name: test-component-npwu
+  namespace: build-e2e-hacbs-vlkz
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: test-component-npwu
+  strategy: {}
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: test-component-npwu
+    spec:
+      containers:
+      - image: quay.io/redhat-appstudio-qe/test-images:5268f2d59d5946d38af8e0c545bbd587
+        imagePullPolicy: Always
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 8081
+          initialDelaySeconds: 10
+          periodSeconds: 10
+        name: container-image
+        ports:
+        - containerPort: 8081
+        readinessProbe:
+          initialDelaySeconds: 10
+          periodSeconds: 10
+          tcpSocket:
+            port: 8081
+        resources: {}
+status: {}
